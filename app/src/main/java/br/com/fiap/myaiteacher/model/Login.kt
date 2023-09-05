@@ -21,8 +21,8 @@ data class Login(
     @ColumnInfo(name = "nm_instituicao")
     var instituicao: String? = null,
 
-    @ColumnInfo(name = "dt_nascimento")
-    var dataNascimento: LocalDate = LocalDate.now(),
+//    @ColumnInfo(name = "dt_nascimento")
+//    var dataNascimento: LocalDate = LocalDate.now(),
 
     @ColumnInfo(name = "ds_telefone")
     var telefone: String? = null,
@@ -30,6 +30,6 @@ data class Login(
     @ColumnInfo(name = "rl_login")
     var realizado: Boolean = false,
 
-    @ColumnInfo(name = "mm_login")
-    var momento: LocalDateTime = LocalDateTime.now()
+//    @ColumnInfo(name = "mm_login")
+//    var momento: LocalDateTime = LocalDateTime.now()
 )

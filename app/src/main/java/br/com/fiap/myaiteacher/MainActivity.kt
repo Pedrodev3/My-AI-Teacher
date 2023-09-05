@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.fiap.myaiteacher.ui.screen.ChatScreen
 import br.com.fiap.myaiteacher.ui.screen.LoginScreen
 import br.com.fiap.myaiteacher.ui.theme.MyAITeacherTheme
 
@@ -30,10 +31,13 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                             navController = navController,
-                            startDestination = "login"
+                            startDestination = "chat"
                     ) {
                         composable(route = "login") {
                             LoginScreen(navController)
+                        }
+                        composable(route = "chat") {
+                            ChatScreen(navController = navController)
                         }
                     }
                 }
