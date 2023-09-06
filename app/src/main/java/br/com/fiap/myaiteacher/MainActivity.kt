@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreen
 import br.com.fiap.myaiteacher.ui.screen.LoginScreen
+import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreenViewModel
 import br.com.fiap.myaiteacher.ui.theme.MyAITeacherTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(navController)
                         }
                         composable(route = "chat") {
-                            ChatScreen(navController = navController)
+                            ChatScreen(navController = navController, chatScreenViewModel = ChatScreenViewModel())
                         }
                     }
                 }

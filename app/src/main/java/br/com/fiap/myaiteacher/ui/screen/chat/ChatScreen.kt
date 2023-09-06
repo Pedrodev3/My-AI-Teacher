@@ -1,5 +1,7 @@
 package br.com.fiap.myaiteacher.ui.screen.chat
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +21,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,10 +40,12 @@ import br.com.fiap.myaiteacher.R
 import br.com.fiap.myaiteacher.ui.screen.chat.components.DialogBaloon
 import br.com.fiap.myaiteacher.ui.theme.Montserrat
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
-fun ChatScreen(navController: NavController) {
+fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenViewModel) {
     val configuration = LocalConfiguration.current
-    val items = listOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5")
+    val items by chatScreenViewModel.commentsList.observeAsState(initial = mutableStateListOf())
+    val comment by chatScreenViewModel.comment.observeAsState(initial = "")
 
     Column() {
         Row(
@@ -94,8 +101,10 @@ fun ChatScreen(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = comment,
+                onValueChange = {
+                                chatScreenViewModel.onCommentChanged(it)
+                },
                 placeholder = {
                     Text(text = "What’s your question? ",
                         style = TextStyle(
@@ -115,7 +124,10 @@ fun ChatScreen(navController: NavController) {
                 ),
             )
             IconButton(
-                onClick = {},
+                onClick = {
+                    Log.i("CHAT", items.toString())
+                    chatScreenViewModel.onAddNewComment(comment)
+                },
                 modifier = Modifier
                     .padding(start = 30.dp, end = 10.dp)
                     .width(35.dp)

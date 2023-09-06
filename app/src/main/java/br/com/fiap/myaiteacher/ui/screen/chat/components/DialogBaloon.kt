@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DialogBaloon(index: Int, text: String) {
 
-    val alignment = if (index % 2 == 0) Alignment.CenterStart else Alignment.CenterEnd
-    val color = if (index % 2 == 0) Color(0xFF3D4045) else Color(0xFFD292FE)
-    val secondColor = if (index % 2 == 0) Color(0xFFFFFFFF) else Color(0xFF00002E)
+    val alignment = if (index % 2 != 0) Alignment.CenterStart else Alignment.CenterEnd
+    val color = if (index % 2 != 0) Color(0xFF3D4045) else Color(0xFFD292FE)
+    val secondColor = if (index % 2 != 0) Color(0xFFFFFFFF) else Color(0xFF00002E)
 
     Box(
         modifier = Modifier
