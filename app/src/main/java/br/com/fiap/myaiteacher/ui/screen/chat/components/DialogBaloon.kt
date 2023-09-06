@@ -14,8 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import br.com.fiap.myaiteacher.ui.theme.Montserrat
 
 @Composable
 fun DialogBaloon(index: Int, text: String) {
@@ -40,7 +43,10 @@ fun DialogBaloon(index: Int, text: String) {
                 text = text,
                 style = TextStyle(
                     textAlign = TextAlign.Center,
-                    color = secondColor
+                    color = secondColor,
+                    fontSize = 14.sp,
+                    fontFamily = Montserrat,
+                    fontWeight = FontWeight(400),
                 ),
                 modifier = Modifier
                     .padding(horizontal = 12.dp, vertical = 5.dp)

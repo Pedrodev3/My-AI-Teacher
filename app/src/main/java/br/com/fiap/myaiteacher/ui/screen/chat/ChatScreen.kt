@@ -1,7 +1,6 @@
 package br.com.fiap.myaiteacher.ui.screen.chat
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -122,11 +123,12 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
                 shape = RoundedCornerShape(
                     12.dp
                 ),
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
             )
             IconButton(
                 onClick = {
-                    Log.i("CHAT", items.toString())
                     chatScreenViewModel.onAddNewComment(comment)
+                    chatScreenViewModel.onCommentChanged("")
                 },
                 modifier = Modifier
                     .padding(start = 30.dp, end = 10.dp)
