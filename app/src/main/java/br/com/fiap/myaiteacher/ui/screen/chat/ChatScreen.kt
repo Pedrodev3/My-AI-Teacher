@@ -54,19 +54,26 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
                 .background(color = Color(0xFF00002E))
                 .height((configuration.screenHeightDp * 0.11).dp)
                 .width((configuration.screenWidthDp).dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
-            Spacer(modifier = Modifier.width(20.dp))
-            Image(
-                painter = painterResource(id = R.drawable.aiteacher),
-                contentDescription = "Imagem de um cara",
+            IconButton(
+                onClick = {
+                    navController.navigate(route = "login")
+                },
                 modifier = Modifier
-                    .size(50.dp),
-                contentScale = ContentScale.Crop
+                    .width(35.dp)
+                    .height(35.dp)
             )
-            Spacer(modifier = Modifier.width(20.dp))
+            {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_keyboard_backspace_24),
+                    contentDescription = "Return to login",
+                    tint = Color(0xB2FFFFFF)
+                )
+            }
             Text(
-                modifier = Modifier.width(258.dp),
+                modifier = Modifier.width(248.dp),
                 text = "Hey exemplo, I am your AI teacher and I am here to help!",
                 style = TextStyle(
                     fontSize = 14.sp,
@@ -76,7 +83,13 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
                     textAlign = TextAlign.Center
                 )
             )
-            Spacer(modifier = Modifier.width(50.dp))
+            Image(
+                painter = painterResource(id = R.drawable.aiteacher),
+                contentDescription = "Imagem de um cara",
+                modifier = Modifier
+                    .size(50.dp),
+                contentScale = ContentScale.Crop
+            )
         }
         Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.002).dp))
         LazyColumn(
