@@ -10,12 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.myaiteacher.ui.screen.LoginScreen
 import br.com.fiap.myaiteacher.ui.theme.MyAITeacherTheme
+import br.com.fiap.myaiteacher.viewmodel.LoginScreenViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +35,7 @@ class MainActivity : ComponentActivity() {
                             startDestination = "login"
                     ) {
                         composable(route = "login") {
-                            LoginScreen(navController)
+                            LoginScreen(navController, LoginScreenViewModel())
                         }
                     }
                 }
