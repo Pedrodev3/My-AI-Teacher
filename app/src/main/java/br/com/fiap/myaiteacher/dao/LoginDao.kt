@@ -12,6 +12,6 @@ interface LoginDao {
     @Insert
     fun salvar(login: Login): Long
 
-    @Query("SELECT * FROM t_ait_login WHERE rl_login = :isRealizado ORDER BY mm_login ASC")
+    @Query("SELECT * FROM t_ait_login WHERE rl_login = :isRealizado ORDER BY nm_login ASC")
     fun exibirLoginsRealizados(isRealizado: Boolean): List<Login>
 }
