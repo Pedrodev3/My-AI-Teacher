@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -15,8 +14,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +28,7 @@ import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreenViewModel
 import br.com.fiap.myaiteacher.ui.theme.Montserrat
 
 @Composable
-fun FooterChat(configuration: Configuration, comment: String, chatScreenViewModel: ChatScreenViewModel, items: SnapshotStateList<String>, scrollState: LazyListState) {
+fun FooterChat(configuration: Configuration, comment: String, chatScreenViewModel: ChatScreenViewModel) {
     Row(
         modifier = Modifier
             .background(color = Color(0xFF2C2F34))
@@ -80,9 +77,6 @@ fun FooterChat(configuration: Configuration, comment: String, chatScreenViewMode
                 contentDescription = "Send message",
                 tint = Color(0xB2FFFFFF)
             )
-            LaunchedEffect(items) {
-                scrollState.animateScrollToItem(if (items.size > 0) items.size -1 else 0)
-            }
         }
     }
 }

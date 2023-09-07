@@ -25,11 +25,11 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
     val comment by chatScreenViewModel.comment.observeAsState(initial = "")
     val scrollState = rememberLazyListState()
 
-    Column() {
+    Column {
         HeaderChat(navController = navController, configuration = configuration)
         Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.002).dp))
         ColumnChat(configuration = configuration, items = items, scrollState = scrollState)
         Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.001).dp))
-        FooterChat(configuration = configuration, comment = comment, chatScreenViewModel = chatScreenViewModel, items = items, scrollState = scrollState)
+        FooterChat(configuration = configuration, comment = comment, chatScreenViewModel = chatScreenViewModel)
     }
 }

@@ -35,7 +35,8 @@ fun ColumnChat(configuration: Configuration, items: SnapshotStateList<String>, s
         }
     }
 
-    LaunchedEffect(items) {
-        scrollState.animateScrollToItem(if (items.size > 0) items.size -1 else 0)
+    LaunchedEffect(items.size) {
+            scrollState.animateScrollToItem(index = items.size)
+
     }
 }
