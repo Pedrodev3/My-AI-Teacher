@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.components
+package br.com.fiap.myaiteacher.ui.screen.login.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -36,7 +35,6 @@ import br.com.fiap.myaiteacher.model.Login
 import br.com.fiap.myaiteacher.repository.LoginRepository
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Filtro(
     label: String,
