@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.viewmodel
+package br.com.fiap.myaiteacher.ui.screen.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
