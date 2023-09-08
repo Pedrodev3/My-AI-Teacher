@@ -59,7 +59,7 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha06")
     // Converters library
     implementation("androidx.databinding:adapters:3.2.0-alpha11")
     //Navigation
@@ -70,8 +70,6 @@ dependencies {
     ksp("androidx.room:room-compiler:2.5.2")
     //Live Data
     implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
-    // Compose foundation
-//    implementation ("androidx.compose.foundation:foundation:1.6.0-alpha04")
     implementation("com.google.android.material:material:1.9.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
