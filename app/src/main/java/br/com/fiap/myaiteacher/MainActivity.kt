@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -11,9 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreen
-import br.com.fiap.myaiteacher.ui.screen.LoginScreen
+import br.com.fiap.myaiteacher.ui.screen.login.LoginScreen
 import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreenViewModel
 import br.com.fiap.myaiteacher.ui.theme.MyAITeacherTheme
+import br.com.fiap.myaiteacher.ui.screen.login.LoginScreenViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,12 +28,13 @@ class MainActivity : ComponentActivity() {
                     color = Color.White
                 ) {
                     val navController = rememberNavController()
+                    val scrollState = rememberLazyListState()
                     NavHost(
                             navController = navController,
-                            startDestination = "chat"
+                            startDestination = "login"
                     ) {
                         composable(route = "login") {
-                            LoginScreen(navController)
+                            LoginScreen(navController, LoginScreenViewModel(), scrollState = scrollState)
                         }
                         composable(route = "chat") {
                             ChatScreen(navController = navController, chatScreenViewModel = ChatScreenViewModel())

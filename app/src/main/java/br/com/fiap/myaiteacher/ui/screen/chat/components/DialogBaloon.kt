@@ -1,5 +1,6 @@
 package br.com.fiap.myaiteacher.ui.screen.chat.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.myaiteacher.ui.theme.Montserrat
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun DialogBaloon(index: Int, text: String) {
 
