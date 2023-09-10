@@ -1,7 +1,6 @@
-package br.com.fiap.myaiteacher.ui.screen.chat
+package br.com.fiap.myaiteacher.ui.screen.bookmarks
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,15 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
@@ -37,30 +30,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import br.com.fiap.myaiteacher.ui.screen.chat.components.ColumnChat
-import br.com.fiap.myaiteacher.ui.screen.chat.components.FooterChat
-import br.com.fiap.myaiteacher.ui.screen.chat.components.HeaderChat
+import br.com.fiap.myaiteacher.ui.screen.bookmarks.components.BodyBookmarks
+import br.com.fiap.myaiteacher.ui.screen.bookmarks.components.HeaderBookmarks
 import br.com.fiap.myaiteacher.ui.screen.chat.components.NavigationItem
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenViewModel) {
+fun BookmarksScreen(navController: NavController, bookmarksScreenViewModel: BookmarksScreenViewModel) {
     val configuration = LocalConfiguration.current
-    val items by chatScreenViewModel.commentsList.observeAsState(initial = mutableStateListOf())
-    val comment by chatScreenViewModel.comment.observeAsState(initial = "")
-    val selected by chatScreenViewModel.selected.observeAsState(initial = 0)
+    val items by bookmarksScreenViewModel.commentsList.observeAsState(initial = mutableStateListOf())
+    val comment by bookmarksScreenViewModel.comment.observeAsState(initial = "")
+    val selected by bookmarksScreenViewModel.selected.observeAsState(initial = 0)
     val scrollState = rememberLazyListState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val drawerItems = listOf(
         NavigationItem(
-            title = "Marcadas",
-            selectedIcon = Icons.Filled.Favorite,
-            unselectedIcon = Icons.Outlined.Favorite,
+            title = "Chat",
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
             colors = Color.White,
             click = {
-                navController.navigate("bookmarks")
+                navController.navigate("chat")
             }
         ),
         NavigationItem(
@@ -94,11 +86,11 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
                             unselectedContainerColor = Color(0xFF2C2F34)
                         ),
                         label = {
-                                Text(text = item.title)
+                            Text(text = item.title)
                         },
                         selected = index == selected,
                         onClick = {
-                            chatScreenViewModel.onChangeSelected(newSelected = index)
+                            bookmarksScreenViewModel.onChangeSelected(newSelected = index)
                             item.click()
                             scope.launch {
                                 drawerState.close()
@@ -127,15 +119,9 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
         drawerState = drawerState
     ) {
         Column {
-            HeaderChat(configuration = configuration, drawerState = drawerState, scope = scope)
+            HeaderBookmarks(configuration = configuration, drawerState = drawerState, scope = scope)
             Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.002).dp))
-            ColumnChat(configuration = configuration, items = items, scrollState = scrollState)
-            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.001).dp))
-            FooterChat(
-                configuration = configuration,
-                comment = comment,
-                chatScreenViewModel = chatScreenViewModel
-            )
+            BodyBookmarks(configuration = configuration, items = items, scrollState = scrollState)
         }
     }
 }

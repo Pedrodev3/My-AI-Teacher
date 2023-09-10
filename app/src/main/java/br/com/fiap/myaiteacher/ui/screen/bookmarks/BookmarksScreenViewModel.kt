@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.ui.screen.chat
+package br.com.fiap.myaiteacher.ui.screen.bookmarks
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlin.random.Random
 
-class ChatScreenViewModel: ViewModel() {
+class BookmarksScreenViewModel: ViewModel() {
 
     private val mocks = arrayOf("A fórmula para calcular a área de um triângulo é (base x altura) / 2.", "A Lei da Gravidade de Newton afirma que todos os corpos atraem uns aos outros com uma força proporcional às massas e inversamente proporcional ao quadrado da distância.", "A Revolução Industrial foi um marco histórico no século 18 que impulsionou a industrialização e transformou a produção de bens.", "O Rio Amazonas é o rio mais longo do mundo, com cerca de 6.400 km de extensão.", "Um substantivo é uma palavra que representa um objeto, lugar, sentimento ou ideia, como 'casa' ou 'felicidade'.")
 

@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.ui.screen.chat.components
+package br.com.fiap.myaiteacher.ui.screen.bookmarks.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -25,14 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import br.com.fiap.myaiteacher.R
 import br.com.fiap.myaiteacher.ui.theme.Montserrat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun HeaderChat(configuration: Configuration, drawerState: DrawerState, scope: CoroutineScope) {
+fun HeaderBookmarks(configuration: Configuration, drawerState: DrawerState, scope: CoroutineScope) {
     Row(
         modifier = Modifier
             .background(color = Color(0xFF00002E))
@@ -43,9 +42,9 @@ fun HeaderChat(configuration: Configuration, drawerState: DrawerState, scope: Co
     ) {
         IconButton(
             onClick = {
-                      scope.launch {
-                          drawerState.open()
-                      }
+                scope.launch {
+                    drawerState.open()
+                }
             },
             modifier = Modifier
                 .width(35.dp)
@@ -60,7 +59,7 @@ fun HeaderChat(configuration: Configuration, drawerState: DrawerState, scope: Co
         }
         Text(
             modifier = Modifier.width(248.dp),
-            text = "Hey exemplo, I am your AI teacher and I am here to help!",
+            text = "Hey exemplo, here you can find your saved messages",
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = Montserrat,
