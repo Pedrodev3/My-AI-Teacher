@@ -1,10 +1,10 @@
-package br.com.fiap.myaiteacher.dao
+package br.com.fiap.myaiteacher.dao.login
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import br.com.fiap.myaiteacher.model.Login
+import br.com.fiap.myaiteacher.model.login.Login
 
 @Dao()
 interface LoginDao {

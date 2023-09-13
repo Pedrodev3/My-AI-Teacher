@@ -8,9 +8,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.fiap.myaiteacher.repository.bookmark.BookmarkRepository
+import br.com.fiap.myaiteacher.ui.screen.bookmarks.BookmarksScreen
+import br.com.fiap.myaiteacher.ui.screen.bookmarks.BookmarksScreenViewModel
 import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreen
 import br.com.fiap.myaiteacher.ui.screen.login.LoginScreen
 import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreenViewModel
@@ -29,6 +33,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val scrollState = rememberLazyListState()
+                    val context = LocalContext.current
+                    val bookmarkRepository = BookmarkRepository(context)
                     NavHost(
                             navController = navController,
                             startDestination = "login"
@@ -38,6 +44,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = "chat") {
                             ChatScreen(navController = navController, chatScreenViewModel = ChatScreenViewModel())
+                        }
+                        composable(route = "bookmarks") {
+                            BookmarksScreen(navController = navController, bookmarksScreenViewModel = BookmarksScreenViewModel(bookmarkRepository = bookmarkRepository))
                         }
                     }
                 }

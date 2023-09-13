@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.ui.screen.chat.components
+package br.com.fiap.myaiteacher.ui.screen.bookmarks.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -10,46 +10,38 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreenViewModel
+import br.com.fiap.myaiteacher.model.bookmark.Bookmark
+import br.com.fiap.myaiteacher.ui.screen.bookmarks.BookmarksScreenViewModel
 
 @Composable
-fun ColumnChat(
-    configuration: Configuration,
-    items: SnapshotStateList<String>,
-    scrollState: LazyListState,
-    chatScreenViewModel: ChatScreenViewModel
-) {
+fun BodyBookmarks(configuration: Configuration, items: List<Bookmark>, scrollState: LazyListState, bookmarksScreenViewModel: BookmarksScreenViewModel) {
 
     LazyColumn(
         modifier = Modifier
             .background(color = Color(0xFF2C2F34))
-            .height((configuration.screenHeightDp * 0.758).dp)
+            .height((configuration.screenHeightDp * 0.889).dp)
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(space = 56.dp, alignment = Alignment.Bottom),
+        verticalArrangement = Arrangement.spacedBy(space = 15.dp, alignment = Alignment.Bottom),
         contentPadding = PaddingValues(vertical = 30.dp),
         state = scrollState
     ) {
         items.forEachIndexed { index, item ->
             item {
-                DialogBaloon(
+                DialogSaved(
                     index = index,
-                    text = item,
-                    onTap = {
-                        chatScreenViewModel.onChangeDialog()
-                        chatScreenViewModel.onTapDialog(item)
-                    }
+                    bookmark = item,
+                    bookmarksScreenViewModel = bookmarksScreenViewModel
                 )
             }
         }
     }
 
     LaunchedEffect(items.size) {
-            scrollState.animateScrollToItem(index = items.size)
+        scrollState.animateScrollToItem(index = items.size)
 
     }
 }

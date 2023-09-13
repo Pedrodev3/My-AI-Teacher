@@ -3,7 +3,6 @@ package br.com.fiap.myaiteacher.ui.screen.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.fiap.myaiteacher.model.Login
 
 class LoginScreenViewModel : ViewModel() {
 

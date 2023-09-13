@@ -31,8 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.fiap.myaiteacher.model.Login
-import br.com.fiap.myaiteacher.repository.LoginRepository
+import br.com.fiap.myaiteacher.model.login.Login
+import br.com.fiap.myaiteacher.repository.login.LoginRepository
 
 
 @Composable
