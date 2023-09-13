@@ -28,8 +28,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import br.com.fiap.myaiteacher.model.bookmark.Bookmark
+import br.com.fiap.myaiteacher.repository.bookmark.BookmarkRepository
 import br.com.fiap.myaiteacher.ui.screen.bookmarks.components.BodyBookmarks
 import br.com.fiap.myaiteacher.ui.screen.bookmarks.components.HeaderBookmarks
 import br.com.fiap.myaiteacher.ui.screen.chat.components.NavigationItem
@@ -38,10 +41,11 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BookmarksScreen(navController: NavController, bookmarksScreenViewModel: BookmarksScreenViewModel) {
+    val context = LocalContext.current
+    val bookmarkRepository = BookmarkRepository(context)
     val configuration = LocalConfiguration.current
-    val items by bookmarksScreenViewModel.commentsList.observeAsState(initial = mutableStateListOf())
-    val comment by bookmarksScreenViewModel.comment.observeAsState(initial = "")
     val selected by bookmarksScreenViewModel.selected.observeAsState(initial = 0)
+    val bookmarks by bookmarksScreenViewModel.bookmarksList.observeAsState(initial = bookmarkRepository.exibirBoomarks())
     val scrollState = rememberLazyListState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -121,7 +125,12 @@ fun BookmarksScreen(navController: NavController, bookmarksScreenViewModel: Book
         Column {
             HeaderBookmarks(configuration = configuration, drawerState = drawerState, scope = scope)
             Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.002).dp))
-            BodyBookmarks(configuration = configuration, items = items, scrollState = scrollState)
+            BodyBookmarks(
+                configuration = configuration,
+                items = bookmarks,
+                scrollState = scrollState,
+                bookmarksScreenViewModel = bookmarksScreenViewModel
+            )
         }
     }
 }

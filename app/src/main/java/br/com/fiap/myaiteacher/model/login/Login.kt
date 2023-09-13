@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.model
+package br.com.fiap.myaiteacher.model.login
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,21 +1,17 @@
 package br.com.fiap.myaiteacher.ui.screen.login
 
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -29,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.myaiteacher.R
-import br.com.fiap.myaiteacher.model.Login
-import br.com.fiap.myaiteacher.repository.LoginRepository
+import br.com.fiap.myaiteacher.model.login.Login
+import br.com.fiap.myaiteacher.repository.login.LoginRepository
 import br.com.fiap.myaiteacher.ui.screen.login.components.ButtonLogin
 import br.com.fiap.myaiteacher.ui.screen.login.components.CaixaDeEntrada
 import br.com.fiap.myaiteacher.ui.screen.login.components.HeaderLogin
@@ -45,7 +41,6 @@ fun LoginScreen(
 ) {
     val context = LocalContext.current
     val loginRepository = LoginRepository(context)
-
     val nomeState by loginScreenViewModel.nomeState.observeAsState(initial = "")
     val emailState by loginScreenViewModel.emailState.observeAsState(initial = "")
     val instituicaoState by loginScreenViewModel.instituicaoState.observeAsState(initial = "")

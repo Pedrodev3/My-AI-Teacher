@@ -1,8 +1,8 @@
-package br.com.fiap.myaiteacher.repository
+package br.com.fiap.myaiteacher.repository.login
 
 import android.content.Context
-import br.com.fiap.myaiteacher.dao.LoginDb
-import br.com.fiap.myaiteacher.model.Login
+import br.com.fiap.myaiteacher.dao.login.LoginDb
+import br.com.fiap.myaiteacher.model.login.Login
 
 class LoginRepository(context: Context) {
 

@@ -3,6 +3,7 @@ package br.com.fiap.myaiteacher.ui.screen.chat.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +24,11 @@ import br.com.fiap.myaiteacher.ui.theme.Montserrat
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun DialogBaloon(index: Int, text: String) {
+fun DialogBaloon(
+    index: Int,
+    text: String,
+    onTap: () -> Unit,
+) {
 
     val alignment = if (index % 2 != 0) Alignment.CenterStart else Alignment.CenterEnd
     val color = if (index % 2 != 0) Color(0xFF3D4045) else Color(0xFFD292FE)
@@ -32,7 +37,11 @@ fun DialogBaloon(index: Int, text: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp),
+            .padding(horizontal = 10.dp)
+            .clickable {
+                       onTap()
+            }
+        ,
         contentAlignment = alignment
     ) {
         BoxWithConstraints(

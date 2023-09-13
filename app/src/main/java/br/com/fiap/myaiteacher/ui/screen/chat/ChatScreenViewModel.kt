@@ -19,6 +19,12 @@ class ChatScreenViewModel: ViewModel() {
     private val _selected = MutableLiveData<Int>()
     val selected: LiveData<Int> = _selected
 
+    private val _isDialogShown = MutableLiveData(false)
+    val isDialogShown: LiveData<Boolean> = _isDialogShown
+
+    private val _currMessage = MutableLiveData<String>()
+    val currMessage: LiveData<String> = _currMessage
+
     fun onCommentChanged(newComment: String) {
         _comment.value = newComment
     }
@@ -32,5 +38,13 @@ class ChatScreenViewModel: ViewModel() {
 
     fun onChangeSelected(newSelected: Int) {
         _selected.value = newSelected
+    }
+
+    fun onChangeDialog(){
+        _isDialogShown.value = !_isDialogShown.value!!
+    }
+
+    fun onTapDialog(newMessage: String){
+        _currMessage.value = newMessage
     }
 }

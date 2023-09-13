@@ -15,9 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreenViewModel
 
 @Composable
-fun ColumnChat(configuration: Configuration, items: SnapshotStateList<String>, scrollState: LazyListState) {
+fun ColumnChat(
+    configuration: Configuration,
+    items: SnapshotStateList<String>,
+    scrollState: LazyListState,
+    chatScreenViewModel: ChatScreenViewModel
+) {
 
     LazyColumn(
         modifier = Modifier
@@ -30,7 +36,14 @@ fun ColumnChat(configuration: Configuration, items: SnapshotStateList<String>, s
     ) {
         items.forEachIndexed { index, item ->
             item {
-                DialogBaloon(index = index, text = item)
+                DialogBaloon(
+                    index = index,
+                    text = item,
+                    onTap = {
+                        chatScreenViewModel.onChangeDialog()
+                        chatScreenViewModel.onTapDialog(item)
+                    }
+                )
             }
         }
     }
