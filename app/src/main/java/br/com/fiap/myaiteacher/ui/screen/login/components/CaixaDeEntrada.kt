@@ -1,14 +1,24 @@
 package br.com.fiap.myaiteacher.ui.screen.login.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
@@ -17,9 +27,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import br.com.fiap.myaiteacher.ui.screen.login.components.autocomplete.AutoComplete
+import br.com.fiap.myaiteacher.ui.screen.login.components.autocomplete.AutoCompleteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,10 +53,12 @@ fun CaixaDeEntrada(
     textStyle: TextStyle,
     textField: TextFieldColors,
     formatting: ((String) -> String)? = null,
+    isPasswordField: Boolean = false,
+    showError: Boolean,
 ) {
     Column(
         modifier = Modifier
-            .height(400.dp)
+            .heightIn(min = 300.dp)
             .widthIn(max = 320.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround,
@@ -51,7 +66,7 @@ fun CaixaDeEntrada(
         TextField(
             label = {
                 Text(
-                    text = "Nome:",
+                    text = "Nome:*",
                     color = colorSecondary,
                 )
             },
@@ -64,12 +79,22 @@ fun CaixaDeEntrada(
             colors = textField,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
-            )
+                imeAction = ImeAction.Next
+            ),
+            leadingIcon = {
+                IconButton(onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Filled.Person,
+                        contentDescription = "Nome",
+                        tint = colorSecondary
+                    )
+                }
+            },
         )
         TextField(
             label = {
                 Text(
-                    text = "E-mail:",
+                    text = "E-mail:*",
                     color = colorSecondary,
                 )
             },
@@ -82,28 +107,21 @@ fun CaixaDeEntrada(
             colors = textField,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
-            )
-        )
-        TextField(
-            label = {
-                Text(
-                    text = "Instituição de Ensino:",
-                    color = colorSecondary,
-                )
-            },
-            value = instituicaoValue,
-            onValueChange = {
-                onInstituicaoChange(it)
-            },
-            modifier = modifier,
-            textStyle = textStyle,
-            colors = textField,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-            )
+                imeAction = ImeAction.Done
+            ),
+            singleLine = true,
+            leadingIcon = {
+                IconButton(onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Filled.Email,
+                        contentDescription = "Email",
+                        tint = colorSecondary
+                    )
+                }
+            }
         )
         CalendarioInput(
-            label = "Data de Nascimento",
+            label = "Data de Nascimento:",
             value = dateValue,
             onValueChange = { onDateChange(it) },
             modifier = modifier,
@@ -134,7 +152,17 @@ fun CaixaDeEntrada(
             colors = textField,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Phone,
-            )
+                imeAction = ImeAction.Done
+            ),
+            leadingIcon = {
+                IconButton(onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Filled.Phone,
+                        contentDescription = "Instituição de Ensino",
+                        tint = colorSecondary
+                    )
+                }
+            }
         )
     }
 }
