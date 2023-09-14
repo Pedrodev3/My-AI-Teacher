@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                             startDestination = "login"
                     ) {
                         composable(route = "login") {
-                            LoginScreen(navController, LoginScreenViewModel(), scrollState = scrollState)
+                            LoginScreen(navController, loginScreenViewModel = LoginScreenViewModel(), scrollState = scrollState)
                         }
                         composable(route = "chat") {
                             ChatScreen(navController = navController, chatScreenViewModel = ChatScreenViewModel())

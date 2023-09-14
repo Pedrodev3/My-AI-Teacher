@@ -1,9 +1,12 @@
 package br.com.fiap.myaiteacher.ui.screen.login
 
+import android.annotation.SuppressLint
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.fiap.myaiteacher.model.Login
+import br.com.fiap.myaiteacher.repository.LoginRepository
 
 class LoginScreenViewModel : ViewModel() {
 
@@ -35,5 +38,16 @@ class LoginScreenViewModel : ViewModel() {
     val telefoneState: LiveData<String> = _telefoneState
     fun onTelefoneChange(novoTelefone: String) {
         _telefoneState.value = novoTelefone
+    }
+
+    private val _loginState = MutableLiveData<Boolean>()
+    val loginState: LiveData<Boolean> = _loginState
+
+    fun createLogin(value: Boolean) {
+        _loginState.value = value
+    }
+
+    fun showName() {
+        return onNomeChange(_nomeState.value.toString())
     }
 }

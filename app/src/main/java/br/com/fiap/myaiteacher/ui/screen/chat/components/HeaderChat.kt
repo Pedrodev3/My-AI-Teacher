@@ -12,10 +12,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -24,10 +27,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.myaiteacher.R
+import br.com.fiap.myaiteacher.repository.LoginRepository
+import br.com.fiap.myaiteacher.ui.screen.login.LoginScreenViewModel
 import br.com.fiap.myaiteacher.ui.theme.Montserrat
 
 @Composable
-fun HeaderChat(navController: NavController, configuration: Configuration) {
+fun HeaderChat(navController: NavController, configuration: Configuration, viewModel: LoginScreenViewModel) {
+
+    val context = LocalContext.current
+    val loginRepository = LoginRepository(context)
+
+    val nomeState = viewModel.showName()
+
     Row(
         modifier = Modifier
             .background(color = Color(0xFF00002E))
