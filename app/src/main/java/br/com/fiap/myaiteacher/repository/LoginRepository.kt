@@ -16,7 +16,7 @@ class LoginRepository(context: Context) {
         return db.excluir(login = login)
     }
 
-    fun buscarLoginRealizado(nome: String): Login? {
+    fun buscarLoginRealizado(nome: String): String? {
         return db.buscarLoginRealizado(nome = nome)
     }
 
