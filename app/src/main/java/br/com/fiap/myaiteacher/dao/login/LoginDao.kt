@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import br.com.fiap.myaiteacher.model.login.Login
 
-@Dao()
+@Dao
 interface LoginDao {
 
     // grava um novo login feito
@@ -16,8 +16,8 @@ interface LoginDao {
     @Delete
     fun excluir(login: Login): Int
 
-    @Query("SELECT * FROM t_ait_login WHERE nm_login = :nome")
-    fun buscarLoginRealizado(nome: String): Login?
+    @Query("SELECT nm_login FROM t_ait_login WHERE nm_login = :nome")
+    fun buscarLoginRealizado(nome: String): String?
 
     @Query("SELECT * FROM t_ait_login WHERE rl_login = :isRealizado ORDER BY nm_login ASC")
     fun exibirLoginsRealizados(isRealizado: Boolean): List<Login>
