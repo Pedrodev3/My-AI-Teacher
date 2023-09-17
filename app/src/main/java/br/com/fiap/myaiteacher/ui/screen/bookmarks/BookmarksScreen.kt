@@ -60,7 +60,7 @@ fun BookmarksScreen(navController: NavController, bookmarksScreenViewModel: Book
             }
         ),
         NavigationItem(
-            title = "Sair",
+            title = "Logout",
             selectedIcon = Icons.Filled.ArrowBack,
             unselectedIcon = Icons.Outlined.ArrowBack,
             colors = Color.Red,
