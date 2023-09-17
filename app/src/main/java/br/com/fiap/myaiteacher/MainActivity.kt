@@ -39,10 +39,9 @@ class MainActivity : ComponentActivity() {
                     val loginScreenViewModel = LoginScreenViewModel()
                     val loginRepository = LoginRepository(context = context)
                     val isLogged: Boolean = loginRepository.exibirLoginsRealizados(isRealizado = true).isNotEmpty()
-                    val startDestination = if (isLogged) "chat" else "login"
                     NavHost(
                             navController = navController,
-                            startDestination = startDestination
+                            startDestination = if (isLogged) "chat" else "login"
                     ) {
                         composable(route = "login") {
                             LoginScreen(navController, loginScreenViewModel = loginScreenViewModel, scrollState = scrollState)
