@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.myaiteacher.repository.bookmark.BookmarkRepository
+import br.com.fiap.myaiteacher.repository.login.LoginRepository
 import br.com.fiap.myaiteacher.ui.screen.bookmarks.BookmarksScreen
 import br.com.fiap.myaiteacher.ui.screen.bookmarks.BookmarksScreenViewModel
 import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreen
@@ -34,16 +35,19 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val scrollState = rememberLazyListState()
                     val context = LocalContext.current
-                    val bookmarkRepository = BookmarkRepository(context)
+                    val bookmarkRepository = BookmarkRepository(context = context)
+                    val loginScreenViewModel = LoginScreenViewModel()
+                    val loginRepository = LoginRepository(context = context)
+                    // val isLogged: Boolean = loginRepository.exibirLoginsRealizados(isRealizado = true).isNotEmpty()
                     NavHost(
                             navController = navController,
                             startDestination = "login"
                     ) {
                         composable(route = "login") {
-                            LoginScreen(navController, loginScreenViewModel = LoginScreenViewModel(), scrollState = scrollState)
+                            LoginScreen(navController, loginScreenViewModel = loginScreenViewModel, scrollState = scrollState)
                         }
                         composable(route = "chat") {
-                            ChatScreen(navController = navController, chatScreenViewModel = ChatScreenViewModel())
+                            ChatScreen(navController = navController, chatScreenViewModel = ChatScreenViewModel(), loginRepository = loginRepository)
                         }
                         composable(route = "bookmarks") {
                             BookmarksScreen(navController = navController, bookmarksScreenViewModel = BookmarksScreenViewModel(bookmarkRepository = bookmarkRepository))

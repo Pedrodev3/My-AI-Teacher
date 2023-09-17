@@ -35,16 +35,18 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import br.com.fiap.myaiteacher.model.bookmark.Bookmark
 import br.com.fiap.myaiteacher.repository.bookmark.BookmarkRepository
+import br.com.fiap.myaiteacher.repository.login.LoginRepository
 import br.com.fiap.myaiteacher.ui.screen.chat.components.ColumnChat
 import br.com.fiap.myaiteacher.ui.screen.chat.components.CustomDialog
 import br.com.fiap.myaiteacher.ui.screen.chat.components.FooterChat
 import br.com.fiap.myaiteacher.ui.screen.chat.components.HeaderChat
 import br.com.fiap.myaiteacher.ui.screen.chat.components.NavigationItem
+import br.com.fiap.myaiteacher.ui.screen.login.LoginScreenViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenViewModel) {
+fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenViewModel, loginRepository: LoginRepository) {
     val context = LocalContext.current
     val bookmarkRepository = BookmarkRepository(context)
     val configuration = LocalConfiguration.current
@@ -142,7 +144,7 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
                 configuration = configuration,
                 drawerState = drawerState,
                 scope = scope,
-                nameState = nameState
+                nameState = loginRepository.exibirLoginsRealizados(true)[0].nome.toString()
             )
             Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.002).dp))
             ColumnChat(
