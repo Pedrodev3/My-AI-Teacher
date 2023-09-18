@@ -16,11 +16,15 @@ class LoginRepository(context: Context) {
         return db.excluir(login = login)
     }
 
-    fun buscarLoginRealizado(nome: String): String? {
+    fun buscarLoginRealizado(nome: String): Login? {
         return db.buscarLoginRealizado(nome = nome)
     }
 
     fun exibirLoginsRealizados(isRealizado: Boolean): List<Login> {
         return db.exibirLoginsRealizados(isRealizado)
+    }
+
+    fun exibirNome(isRealizado: Boolean): List<Login> {
+        return db.exibirNome(isRealizado)
     }
 }

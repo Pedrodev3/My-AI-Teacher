@@ -31,7 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun HeaderBookmarks(configuration: Configuration, drawerState: DrawerState, scope: CoroutineScope) {
+fun HeaderBookmarks(configuration: Configuration, drawerState: DrawerState, scope: CoroutineScope, nameState: String?) {
     Row(
         modifier = Modifier
             .background(color = Color(0xFF00002E))
@@ -59,7 +59,7 @@ fun HeaderBookmarks(configuration: Configuration, drawerState: DrawerState, scop
         }
         Text(
             modifier = Modifier.width(248.dp),
-            text = "Hey exemplo, here you can find your saved messages",
+            text = "Então $nameState, aqui estão seus favoritos",
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = Montserrat,

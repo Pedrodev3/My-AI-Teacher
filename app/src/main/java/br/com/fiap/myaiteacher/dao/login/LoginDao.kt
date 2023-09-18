@@ -16,9 +16,12 @@ interface LoginDao {
     @Delete
     fun excluir(login: Login): Int
 
-    @Query("SELECT nm_login FROM t_ait_login WHERE nm_login = :nome")
-    fun buscarLoginRealizado(nome: String): String?
+    @Query("SELECT * FROM t_ait_login WHERE nm_login = :nome")
+    fun buscarLoginRealizado(nome: String): Login?
 
-    @Query("SELECT * FROM t_ait_login WHERE rl_login = :isRealizado ORDER BY nm_login ASC")
+    @Query("SELECT * FROM t_ait_login WHERE rl_login = :isRealizado ORDER BY cd_login")
     fun exibirLoginsRealizados(isRealizado: Boolean): List<Login>
+
+    @Query("SELECT * FROM t_ait_login WHERE rl_login = :isRealizado ORDER BY cd_login DESC LIMIT 1")
+    fun exibirNome(isRealizado: Boolean): List<Login>
 }
