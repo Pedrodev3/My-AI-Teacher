@@ -1,7 +1,6 @@
 package br.com.fiap.myaiteacher.ui.screen.chat
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +31,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import br.com.fiap.myaiteacher.model.bookmark.Bookmark
 import br.com.fiap.myaiteacher.repository.bookmark.BookmarkRepository
 import br.com.fiap.myaiteacher.repository.login.LoginRepository
@@ -41,12 +39,11 @@ import br.com.fiap.myaiteacher.ui.screen.chat.components.CustomDialog
 import br.com.fiap.myaiteacher.ui.screen.chat.components.FooterChat
 import br.com.fiap.myaiteacher.ui.screen.chat.components.HeaderChat
 import br.com.fiap.myaiteacher.ui.screen.chat.components.NavigationItem
-import br.com.fiap.myaiteacher.ui.screen.login.LoginScreenViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenViewModel, loginRepository: LoginRepository) {
+fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenViewModel, loginRepository: LoginRepository, logout: () -> Unit) {
     val context = LocalContext.current
     val bookmarkRepository = BookmarkRepository(context)
     val configuration = LocalConfiguration.current
@@ -72,20 +69,12 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
             title = "Logout",
             selectedIcon = Icons.Filled.ArrowBack,
             unselectedIcon = Icons.Outlined.ArrowBack,
-            colors = Color.Red,
-            click = {
-                navController.navigate("login")
-            }
-        ),
+            colors = Color.Red
+        ) {
+            logout()
+            navController.navigate("login")
+        },
     )
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val savedStateHandle = navBackStackEntry?.savedStateHandle
-
-    val nameState: String? = savedStateHandle?.get("nomeState")
-    Log.e("ChatScreen - Error", "nameState: $nameState")
-    Log.i("ChatScreen - Info", "nameState: $nameState")
-    Log.d("ChatScreen - Desc", "nameState: $nameState")
 
     //Screen content
     ModalNavigationDrawer(
@@ -144,7 +133,7 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
                 configuration = configuration,
                 drawerState = drawerState,
                 scope = scope,
-                nameState = loginRepository.exibirLoginsRealizados(true)[0].nome.toString()
+                nameState = loginRepository.exibirNome(true)[0].nome.toString()
             )
             Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.002).dp))
             ColumnChat(

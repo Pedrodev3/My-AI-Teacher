@@ -1,7 +1,6 @@
 package br.com.fiap.myaiteacher.ui.screen.login
 
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,19 +57,19 @@ fun LoginScreen(
 
     val loginState by loginScreenViewModel.loginState.observeAsState(initial = false)
 
+    val maxChar = 11
     val colorPrimary = Color(0xFFD292FE)
     val colorSecondary = Color(0xFF00002E)
     val fontSize = 20.sp
 
     val coroutineScope = rememberCoroutineScope()
 
-    val isLoggedIn = loginState
-
-    // Se o login já foi feito, vai automaticamente para a tela de chat
-    if(isLoggedIn) {
-        LaunchedEffect(key1 = true) {
-            navController.navigate("chat")
-        }
+    fun clearTextFields() {
+        loginScreenViewModel.onNomeChange("")
+        loginScreenViewModel.onEmailChange("")
+        loginScreenViewModel.onInstituicaoChange("")
+        loginScreenViewModel.onDateChange("")
+        loginScreenViewModel.onTelefoneChange("")
     }
 
     LazyColumn(
@@ -112,7 +110,7 @@ fun LoginScreen(
                 onEmailChange = { loginScreenViewModel.onEmailChange(it) },
                 onInstituicaoChange = { loginScreenViewModel.onInstituicaoChange(it) },
                 onDateChange = { loginScreenViewModel.onDateChange(it) },
-                onTelefoneChange = { loginScreenViewModel.onTelefoneChange(it) },
+                onTelefoneChange = { if(it.length <= maxChar)  loginScreenViewModel.onTelefoneChange(it)},
                 colorPrimary = colorPrimary,
                 colorSecondary = colorSecondary,
                 modifier = Modifier
@@ -127,6 +125,7 @@ fun LoginScreen(
                 textField = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = colorPrimary
                 ),
+                maxChar = maxChar
             )
         }
         item {
@@ -155,24 +154,19 @@ fun LoginScreen(
                         loginRepository.salvar(login)
                         loginScreenViewModel.createLogin(true)
 
-                        if(loginState) {
+                        if (loginState) {
                             coroutineScope.launch {
                                 delay(1500)
-
-                                val previousBackStackEntry = navController.previousBackStackEntry
-                                previousBackStackEntry?.savedStateHandle?.set("nomeState", nomeState)
-                                navController.popBackStack()
-
-                                Log.i("ChatScreen - Info", "nameState: $nomeState")
-
                                 navController.navigate("chat") {
                                     // Retira da fila de navegação a tela de login
                                     popUpTo("login") {
                                         inclusive = true
                                     }
+                                    clearTextFields()
                                 }
                             }
-                            Toast.makeText(context, "Login criado com sucesso!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Login criado com sucesso!", Toast.LENGTH_SHORT)
+                                .show()
                             loginScreenViewModel.createLogin(false)
                         }
                     }
@@ -181,5 +175,3 @@ fun LoginScreen(
         }
     }
 }
-
-
