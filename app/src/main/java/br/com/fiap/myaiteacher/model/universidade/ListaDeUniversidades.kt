@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.model
+package br.com.fiap.myaiteacher.model.universidade
 
 data class ListaDeUniversidades(
     var results: List<Universidade>

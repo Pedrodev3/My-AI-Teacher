@@ -1,6 +1,7 @@
 package br.com.fiap.myaiteacher
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.fiap.myaiteacher.model.login.Login
 import br.com.fiap.myaiteacher.repository.bookmark.BookmarkRepository
 import br.com.fiap.myaiteacher.repository.login.LoginRepository
 import br.com.fiap.myaiteacher.ui.screen.bookmarks.BookmarksScreen
@@ -35,10 +37,26 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val scrollState = rememberLazyListState()
                     val context = LocalContext.current
-                    val bookmarkRepository = BookmarkRepository(context = context)
                     val loginScreenViewModel = LoginScreenViewModel()
                     val loginRepository = LoginRepository(context = context)
+                    val bookmarkRepository = BookmarkRepository(context = context)
                     val isLogged: Boolean = loginRepository.exibirLoginsRealizados(isRealizado = true).isNotEmpty()
+                    fun logout() {
+                        val lastLogin = loginRepository.exibirLoginsRealizados(true).lastOrNull()
+                        lastLogin?.let { login ->
+                            loginRepository.excluir(login)
+                            Log.i("LOGOUT", "Deleta o registro pelo ID: $login")
+                        }
+                        val allBookmarks = bookmarkRepository.exibirBoomarks()
+                        val naoExiste = "Não possui bookmarks"
+                        allBookmarks.forEach { bookmark ->
+                            bookmarkRepository.excluir(bookmark)
+                            Log.i(
+                                "LOGOUT",
+                                "Deleta o bookmark pelo ID: $bookmark ? $bookmark : $naoExiste"
+                            )
+                        }
+                    }
                     NavHost(
                             navController = navController,
                             startDestination = if (isLogged) "chat" else "login"
@@ -47,10 +65,10 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(navController, loginScreenViewModel = loginScreenViewModel, scrollState = scrollState)
                         }
                         composable(route = "chat") {
-                            ChatScreen(navController = navController, chatScreenViewModel = ChatScreenViewModel(), loginRepository = loginRepository)
+                            ChatScreen(navController = navController, chatScreenViewModel = ChatScreenViewModel(), loginRepository = loginRepository, logout = { logout() })
                         }
                         composable(route = "bookmarks") {
-                            BookmarksScreen(navController = navController, bookmarksScreenViewModel = BookmarksScreenViewModel(bookmarkRepository = bookmarkRepository))
+                            BookmarksScreen(navController = navController, bookmarksScreenViewModel = BookmarksScreenViewModel(bookmarkRepository = bookmarkRepository), loginRepository = loginRepository, logout = { logout() })
                         }
                     }
                 }
