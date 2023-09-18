@@ -35,4 +35,15 @@ class LoginScreenViewModel : ViewModel() {
     fun onTelefoneChange(novoTelefone: String) {
         _telefoneState.value = novoTelefone
     }
+
+    private val _loginState = MutableLiveData<Boolean>()
+    val loginState: LiveData<Boolean> = _loginState
+
+    fun createLogin(value: Boolean) {
+        _loginState.value = value
+    }
+
+    fun showName() {
+        return onNomeChange(_nomeState.value.toString())
+    }
 }

@@ -1,24 +1,19 @@
 package br.com.fiap.myaiteacher.ui.screen.login.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
@@ -29,10 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import br.com.fiap.myaiteacher.ui.screen.login.components.autocomplete.AutoComplete
-import br.com.fiap.myaiteacher.ui.screen.login.components.autocomplete.AutoCompleteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,6 +45,7 @@ fun CaixaDeEntrada(
     modifier: Modifier,
     textStyle: TextStyle,
     textField: TextFieldColors,
+    maxChar : Int
 ) {
     Column(
         modifier = Modifier
@@ -151,6 +145,14 @@ fun CaixaDeEntrada(
                 keyboardType = KeyboardType.Phone,
                 imeAction = ImeAction.Done
             ),
+            supportingText = {
+                             Text(
+                                 text = "${telefoneValue.length}/$maxChar",
+                                 modifier = Modifier.fillMaxWidth().padding(5.dp),
+                                 textAlign = TextAlign.End,
+                                    color = colorSecondary
+                             )
+            },
             leadingIcon = {
                 IconButton(onClick = { }) {
                     Icon(

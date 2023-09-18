@@ -1,10 +1,13 @@
 package br.com.fiap.myaiteacher.ui.screen.login
 
 
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -14,6 +17,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +34,11 @@ import br.com.fiap.myaiteacher.repository.login.LoginRepository
 import br.com.fiap.myaiteacher.ui.screen.login.components.ButtonLogin
 import br.com.fiap.myaiteacher.ui.screen.login.components.CaixaDeEntrada
 import br.com.fiap.myaiteacher.ui.screen.login.components.HeaderLogin
+import br.com.fiap.myaiteacher.ui.screen.login.components.autocomplete.AutoComplete
+import br.com.fiap.myaiteacher.ui.screen.login.components.autocomplete.AutoCompleteViewModel
 import br.com.fiap.myaiteacher.ui.theme.Montserrat
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,10 +55,22 @@ fun LoginScreen(
     val dateState by loginScreenViewModel.dateState.observeAsState(initial = "")
     val telefoneState by loginScreenViewModel.telefoneState.observeAsState(initial = "")
 
+    val loginState by loginScreenViewModel.loginState.observeAsState(initial = false)
+
+    val maxChar = 11
     val colorPrimary = Color(0xFFD292FE)
     val colorSecondary = Color(0xFF00002E)
     val fontSize = 20.sp
 
+    val coroutineScope = rememberCoroutineScope()
+
+    fun clearTextFields() {
+        loginScreenViewModel.onNomeChange("")
+        loginScreenViewModel.onEmailChange("")
+        loginScreenViewModel.onInstituicaoChange("")
+        loginScreenViewModel.onDateChange("")
+        loginScreenViewModel.onTelefoneChange("")
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -71,6 +91,15 @@ fun LoginScreen(
             )
         }
         item {
+            AutoComplete(
+                autoCompleteViewModel = AutoCompleteViewModel(), modifier = Modifier
+                    .heightIn(min = 100.dp)
+                    .widthIn(max = 320.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceAround
+            )
+        }
+        item {
             CaixaDeEntrada(
                 nomeValue = nomeState,
                 emailValue = emailState,
@@ -81,7 +110,7 @@ fun LoginScreen(
                 onEmailChange = { loginScreenViewModel.onEmailChange(it) },
                 onInstituicaoChange = { loginScreenViewModel.onInstituicaoChange(it) },
                 onDateChange = { loginScreenViewModel.onDateChange(it) },
-                onTelefoneChange = { loginScreenViewModel.onTelefoneChange(it) },
+                onTelefoneChange = { if(it.length <= maxChar)  loginScreenViewModel.onTelefoneChange(it)},
                 colorPrimary = colorPrimary,
                 colorSecondary = colorSecondary,
                 modifier = Modifier
@@ -96,6 +125,7 @@ fun LoginScreen(
                 textField = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = colorPrimary
                 ),
+                maxChar = maxChar
             )
         }
         item {
@@ -105,21 +135,43 @@ fun LoginScreen(
             ButtonLogin(
                 text = "Entrar",
                 onClick = {
-                    val login = Login(
-                        codigo = 0, // AutoGenerate - O Banco ira gerenciar isso
-                        nome = loginScreenViewModel.nomeState.value,
-                        email = loginScreenViewModel.emailState.value,
-                        instituicao = loginScreenViewModel.instituicaoState.value,
-                        dataNascimento = loginScreenViewModel.dateState.value,
-                        telefone = loginScreenViewModel.telefoneState.value,
-                        realizado = true
-                    )
-                    loginRepository.salvar(login)
-                    navController.navigate("chat")
+                    if (nomeState.isEmpty()) {
+                        Toast.makeText(context, "Nome não pode ser vazio", Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (emailState.isEmpty()) {
+                        Toast.makeText(context, "E-mail não pode ser vazio", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        val login = Login(
+                            codigo = 0, // AutoGenerate - O Banco ira gerenciar isso
+                            nome = loginScreenViewModel.nomeState.value,
+                            email = loginScreenViewModel.emailState.value,
+                            instituicao = loginScreenViewModel.instituicaoState.value,
+                            dataNascimento = loginScreenViewModel.dateState.value,
+                            telefone = loginScreenViewModel.telefoneState.value,
+                            realizado = true
+                        )
+                        loginRepository.salvar(login)
+                        loginScreenViewModel.createLogin(true)
+
+                        if (loginState) {
+                            coroutineScope.launch {
+                                delay(1500)
+                                navController.navigate("chat") {
+                                    // Retira da fila de navegação a tela de login
+                                    popUpTo("login") {
+                                        inclusive = true
+                                    }
+                                    clearTextFields()
+                                }
+                            }
+                            Toast.makeText(context, "Login criado com sucesso!", Toast.LENGTH_SHORT)
+                                .show()
+                            loginScreenViewModel.createLogin(false)
+                        }
+                    }
                 },
             )
         }
     }
 }
-
-
