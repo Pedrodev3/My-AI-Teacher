@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.ui.screen.chat.components
+package br.com.fiap.myaiteacher.ui.screen.bookmarks.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -31,7 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun HeaderChat(configuration: Configuration, drawerState: DrawerState, scope: CoroutineScope, nameState: String?) {
+fun HeaderBookmarks(configuration: Configuration, drawerState: DrawerState, scope: CoroutineScope, nameState: String?) {
     Row(
         modifier = Modifier
             .background(color = Color(0xFF00002E))
@@ -59,7 +59,7 @@ fun HeaderChat(configuration: Configuration, drawerState: DrawerState, scope: Co
         }
         Text(
             modifier = Modifier.width(248.dp),
-            text = "Eae $nameState, eu sou seu AI teacher.\n Estou aqui para ajudar!",
+            text = "Então $nameState, aqui estão seus favoritos",
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = Montserrat,

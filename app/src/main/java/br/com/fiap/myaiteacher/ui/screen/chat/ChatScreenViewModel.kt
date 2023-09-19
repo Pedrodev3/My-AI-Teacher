@@ -16,6 +16,15 @@ class ChatScreenViewModel: ViewModel() {
     private val _comment = MutableLiveData<String>()
     val comment: LiveData<String> = _comment
 
+    private val _selected = MutableLiveData<Int>()
+    val selected: LiveData<Int> = _selected
+
+    private val _isDialogShown = MutableLiveData(false)
+    val isDialogShown: LiveData<Boolean> = _isDialogShown
+
+    private val _currMessage = MutableLiveData<String>()
+    val currMessage: LiveData<String> = _currMessage
+
     fun onCommentChanged(newComment: String) {
         _comment.value = newComment
     }
@@ -25,5 +34,17 @@ class ChatScreenViewModel: ViewModel() {
         val randomIndex = Random.nextInt(0, mocks.size)
         val randomElement = mocks[randomIndex]
         _commentsList.value?.add(randomElement)
+    }
+
+    fun onChangeSelected(newSelected: Int) {
+        _selected.value = newSelected
+    }
+
+    fun onChangeDialog(){
+        _isDialogShown.value = !_isDialogShown.value!!
+    }
+
+    fun onTapDialog(newMessage: String){
+        _currMessage.value = newMessage
     }
 }

@@ -1,4 +1,4 @@
-package br.com.fiap.myaiteacher.ui.screen.chat
+package br.com.fiap.myaiteacher.ui.screen.bookmarks
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
@@ -23,7 +23,6 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,49 +30,44 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import br.com.fiap.myaiteacher.model.bookmark.Bookmark
 import br.com.fiap.myaiteacher.repository.bookmark.BookmarkRepository
 import br.com.fiap.myaiteacher.repository.login.LoginRepository
-import br.com.fiap.myaiteacher.ui.screen.chat.components.ColumnChat
-import br.com.fiap.myaiteacher.ui.screen.chat.components.CustomDialog
-import br.com.fiap.myaiteacher.ui.screen.chat.components.FooterChat
-import br.com.fiap.myaiteacher.ui.screen.chat.components.HeaderChat
+import br.com.fiap.myaiteacher.ui.screen.bookmarks.components.BodyBookmarks
+import br.com.fiap.myaiteacher.ui.screen.bookmarks.components.HeaderBookmarks
 import br.com.fiap.myaiteacher.ui.screen.chat.components.NavigationItem
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenViewModel, loginRepository: LoginRepository, logout: () -> Unit) {
+fun BookmarksScreen(navController: NavController, bookmarksScreenViewModel: BookmarksScreenViewModel, loginRepository: LoginRepository, logout: () -> Unit) {
     val context = LocalContext.current
     val bookmarkRepository = BookmarkRepository(context)
     val configuration = LocalConfiguration.current
-    val items by chatScreenViewModel.commentsList.observeAsState(initial = mutableStateListOf())
-    val comment by chatScreenViewModel.comment.observeAsState(initial = "")
-    val selected by chatScreenViewModel.selected.observeAsState(initial = 0)
-    val isDialog by chatScreenViewModel.isDialogShown.observeAsState(initial = false)
-    val currMessage by chatScreenViewModel.currMessage.observeAsState(initial = "")
+    val selected by bookmarksScreenViewModel.selected.observeAsState(initial = 0)
+    val bookmarks by bookmarksScreenViewModel.bookmarksList.observeAsState(initial = bookmarkRepository.exibirBoomarks())
     val scrollState = rememberLazyListState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val drawerItems = listOf(
         NavigationItem(
-            title = "Marcadas",
-            selectedIcon = Icons.Filled.Favorite,
-            unselectedIcon = Icons.Outlined.Favorite,
+            title = "Chat",
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
             colors = Color.White,
             click = {
-                navController.navigate("bookmarks")
+                navController.navigate("chat")
             }
         ),
         NavigationItem(
             title = "Logout",
             selectedIcon = Icons.Filled.ArrowBack,
             unselectedIcon = Icons.Outlined.ArrowBack,
-            colors = Color.Red
-        ) {
-            logout()
-            navController.navigate("login")
-        },
+            colors = Color.Red,
+            click = {
+                logout()
+                navController.navigate("login")
+            }
+        ),
     )
 
     //Screen content
@@ -100,7 +94,7 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
                         },
                         selected = index == selected,
                         onClick = {
-                            chatScreenViewModel.onChangeSelected(newSelected = index)
+                            bookmarksScreenViewModel.onChangeSelected(newSelected = index)
                             item.click()
                             scope.launch {
                                 drawerState.close()
@@ -129,39 +123,18 @@ fun ChatScreen(navController: NavController, chatScreenViewModel: ChatScreenView
         drawerState = drawerState
     ) {
         Column {
-            HeaderChat(
+            HeaderBookmarks(
                 configuration = configuration,
                 drawerState = drawerState,
                 scope = scope,
                 nameState = loginRepository.exibirNome(true)[0].nome.toString()
             )
             Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.002).dp))
-            ColumnChat(
+            BodyBookmarks(
                 configuration = configuration,
-                items = items,
+                items = bookmarks,
                 scrollState = scrollState,
-                chatScreenViewModel = chatScreenViewModel
-            )
-            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.001).dp))
-            FooterChat(
-                configuration = configuration,
-                comment = comment,
-                chatScreenViewModel = chatScreenViewModel
-            )
-        }
-        if(isDialog){
-            CustomDialog(
-                onDismiss = {
-                    chatScreenViewModel.onChangeDialog()
-                },
-                onConfirm = {
-                    chatScreenViewModel.onChangeDialog()
-                    val bookmark = Bookmark(
-                        codigo = 0,
-                        texto = currMessage
-                    )
-                    bookmarkRepository.salvar(bookmark)
-                }
+                bookmarksScreenViewModel = bookmarksScreenViewModel
             )
         }
     }

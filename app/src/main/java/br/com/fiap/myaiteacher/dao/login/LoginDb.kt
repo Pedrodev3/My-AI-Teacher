@@ -1,12 +1,16 @@
-package br.com.fiap.myaiteacher.dao
+package br.com.fiap.myaiteacher.dao.login
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import br.com.fiap.myaiteacher.model.Login
+import br.com.fiap.myaiteacher.model.login.Login
 
-@Database(entities = [Login::class], version = 1)
+@Database(
+    entities = [Login::class],
+    version = 1
+)
+//@TypeConverters(Converters::class)
 abstract class LoginDb: RoomDatabase() {
     abstract fun loginDao(): LoginDao
 
@@ -15,7 +19,7 @@ abstract class LoginDb: RoomDatabase() {
 
         fun getBanco(context: Context): LoginDb {
 
-            if(!::instancia.isInitialized) {
+            if(!Companion::instancia.isInitialized) {
                 instancia = Room
                     .databaseBuilder(
                         context,
