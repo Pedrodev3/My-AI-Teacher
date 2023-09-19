@@ -14,6 +14,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,7 +29,10 @@ import br.com.fiap.myaiteacher.ui.screen.chat.ChatScreenViewModel
 import br.com.fiap.myaiteacher.ui.theme.Montserrat
 
 @Composable
-fun FooterChat(configuration: Configuration, comment: String, chatScreenViewModel: ChatScreenViewModel) {
+fun FooterChat(configuration: Configuration, comment: String, chatScreenViewModel: ChatScreenViewModel, items: SnapshotStateList<String>) {
+
+    var texto = ""
+
     Row(
         modifier = Modifier
             .background(color = Color(0xFF2C2F34))
